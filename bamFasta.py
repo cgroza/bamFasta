@@ -13,7 +13,7 @@ fasta = pysam.FastaFile(fasta_path)
 
 def log(qname, rname, s, e, o, d):
     """Logging function to simplify output to stderr"""
-    sys.stderr.write(qname + " in " + rname + ": " + str(s) + " - " + str(e) + " offset = " + str(o) + " delta_offset= " +  d + "\n")
+    sys.stderr.write(qname + " in " + rname + ": " + str(s) + " - " + str(e) + " offset = " + str(o) + " delta_offset= " +  str(d) + "\n")
 
 def individualize_contig(contig_name):
     ref_seq = fasta.fetch(reference=contig_name)
