@@ -36,9 +36,9 @@ def individualize_contig(contig_name):
         aligned_length = read.reference_length
         # length of read
         read_length = read.infer_query_length()
-        # Subs tract 1 to account for 0-based strings and 1-based BAM coordinates
-        start = read.reference_start + offset - 1
-        end = read.reference_end + offset - 1
+        # subtract 1 to account for 0-based strings and 1-based BAM coordinates
+        start = read.reference_start + offset
+        end = read.reference_end + offset
         # make the substitution in the reference sequence
         ref_seq = ref_seq[:start] + query_seq + ref_seq[end:]
         # update the offset of the contig coordinate
