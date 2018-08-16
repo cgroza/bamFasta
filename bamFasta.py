@@ -40,7 +40,7 @@ def individualize_contig(contig_name):
         end = read.reference_end + offset
         # make the substitution in the reference sequence.
         # offset the end by 1 base since it belongs to the read. start is not included in the prefix by default
-        ref_seq = ref_seq[:start] + query_seq + ref_seq[end + 1:]
+        ref_seq = ref_seq[:start] + query_seq + ref_seq[end:]
         # update the offset of the contig coordinate
         delta_offset = read_length - aligned_length
         offset = delta_offset + offset
