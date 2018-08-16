@@ -40,7 +40,7 @@ out = open(new_fasta_path, 'w')
 for contig in fasta.references:
     new_seq = individualize_contig(contig)
     out.write(">" + contig + "\n")
-    out.write(out)
+    out.write(new_seq)
 
 
 bam.close()
