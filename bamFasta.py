@@ -15,7 +15,7 @@ fasta = pysam.FastaFile(fasta_path)
 n_seqs = 0
 n_bases = 0
 
-#NOTE: BAM, VCF coordinates are 1 based. Make sure to adjust when substituting into 0 based strings
+#NOTE: SAM, VCF coordinates are 1 based. But pysam converts all coordinates to 0-based.
 #NOTE: Maybe integrate some collision detection between reads?
 
 def log(qname, rname, s, e, o, d):
@@ -36,7 +36,6 @@ def individualize_contig(contig_name):
         aligned_length = read.reference_length
         # length of read
         read_length = read.infer_query_length()
-        # subtract 1 to account for 0-based strings and 1-based BAM coordinates
         start = read.reference_start + offset
         end = read.reference_end + offset
         # make the substitution in the reference sequence
