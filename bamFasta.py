@@ -42,5 +42,8 @@ for contig in fasta.references:
     out.write(">" + contig + "\n")
     out.write(out)
 
+
 bam.close()
 fasta.close()
+out.close()
+
