@@ -5,8 +5,8 @@ fasta_path = sys.argv[1]
 bam_path = sys.argv[2]
 new_fasta_path = sys.argv[3]
 
-bam = pysam.AlignmentFile(bamPath, "rb")
-fasta = pysam.FastaFile(fastaPath)
+bam = pysam.AlignmentFile(bam_path, "rb")
+fasta = pysam.FastaFile(fasta_path)
 
 #NOTE: BAM, VCF coordinates are 1 based. Make sure to adjust when substituting into 0 based strings
 #NOTE: Maybe integrate some collision detection between reads?
@@ -36,7 +36,7 @@ def individualize_contig(contig_name):
         offset = (read_length - aligned_length) + offset
     return ref_seq
 
-out = open(newFastaPath 'w')
+out = open(new_fasta_path, 'w')
 for contig in fasta.references:
     new_seq = individualize_contig(contig)
     out.write(">" + contig + "\n")
