@@ -22,12 +22,14 @@ def log(qname, rname, s, e, o, d):
     """Logging function to simplify output to stderr"""
     sys.stderr.write(qname + " in " + rname + ": " + str(s) + " - " + str(e) + " offset = " + str(o) + " delta_offset= " +  str(d) + "\n")
 
-def individualize_contig(contig_name):
+def individualize_contig(contig_name, overlapped = None):
     global n_seqs, n_bases
     ref_seq = fasta.fetch(reference=contig_name)
     # initially, no offset because no substitutions yet
     offset = 0
     for read in bam.fetch(contig=contig_name):
+        if read in overlapped:
+            continue
         # not needed
         #chrom = read.reference_name
         query_seq = read.query_alignment_sequence
@@ -49,9 +51,28 @@ def individualize_contig(contig_name):
         n_bases += aligned_length
     return ref_seq
 
+def report_overlaps():
+    """This function is intended to detect overlapping reads for later exclusion."""
+    overlaps = []
+    for read1 in bam.fetch():
+        for read2 in bam.fetch(contig=read1.reference_name):
+            # Do not compare read with self
+            if read1 == read2:
+                continue
+            # Check if read2 start or end is within read1 interval
+            if (read1.reference_start < read2.reference_start and read2.reference_start < read1.reference_end) or (read1.reference_start < read2.reference_end  and read2.reference_end < read1.reference_end):
+                overlaps.append(read2)
+    return set(overlaps)
+
+
+overlapped_reads = report_overlaps()
+print "Total reads: " +  str(bam.count())
+print "Overlapping reads: " + str(len(overlapped_reads))
+
+
 out = open(new_fasta_path, 'w')
 for contig in fasta.references:
-    new_seq = individualize_contig(contig)
+    new_seq = individualize_contig(contig, overlapped_reads)
     out.write(">" + contig + "\n")
     out.write(new_seq)
 
