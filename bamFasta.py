@@ -49,7 +49,7 @@ def individualize_contig(contig_name, overlapped = None):
         log(read.query_name, contig_name, start, end, offset, delta_offset)
         n_seqs += 1
         n_bases += aligned_length
-    return ref_seq
+    return ref_seq + "\n"
 
 def report_overlaps():
     """This function is intended to detect overlapping reads for later exclusion."""
